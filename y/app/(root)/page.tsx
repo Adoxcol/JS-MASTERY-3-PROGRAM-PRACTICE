@@ -5,7 +5,7 @@ import RightSideBar from '@/components/ui/RightSideBar';
 import React from 'react'
 
 const Home = () => {
-  const loggedIn = {firstname : 'Mahmood'};
+  const loggedIn = {firstName: 'Mahmood', lastName: 'Tauhidul',email:'2010387@iub.edu.bd'};
   return (
     <section className ="home" >
     <div className ='home-content'>
@@ -13,7 +13,7 @@ const Home = () => {
         <HeaderBox 
         type ='greeting'
         title ='Welcome'
-        user = {loggedIn?.firstname || 'Guest'}
+        user = {loggedIn?.firstName || 'Guest'}
         subtext = 'Access and Manage your account and transactions'
         />
 
@@ -29,7 +29,7 @@ const Home = () => {
      <RightSideBar 
      user = {loggedIn}
      transactions = {[]}
-     banks = {[]}
+     banks = {[{},{}]}
      />
     
     </section>
