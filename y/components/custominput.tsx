@@ -1,30 +1,29 @@
-
-import { Input } from '@/components/ui/input'; // Correct the import path to match your Input component
+import { Input } from '@/components/ui/input';
 import React from 'react';
 import { FormField, FormLabel, FormControl, FormMessage } from './ui/form';
-import {Control, FieldPath, Form} from 'react-hook-form'
+import { Control, FieldPath } from 'react-hook-form';
 import { z } from 'zod';
-import { authformSchema } from '@/lib/utils';
+import { authFormSchema } from '@/lib/utils';
 
+// Schema definition
+const formSchema = authFormSchema('sign-up');
 
-
-
-interface CustomInput {
-  control: Control<z.infer<typeof authformSchema>>;
-  name: FieldPath<z.infer<typeof authformSchema>>,
-  label: string,
-  placeholder: string,
-  type?: string, // Add type as an optional property
+interface CustomInputProps {
+  control: Control<z.infer<typeof formSchema>>;
+  name: FieldPath<z.infer<typeof formSchema>>;
+  label: string;
+  placeholder: string;
+  type?: string; // Optional type property
 }
 
-const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
+const CustomInput = ({ control, name, label, placeholder, type = 'text' }: CustomInputProps) => {
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <div className='form-item'>
-          {/* Ensure that the label, input, and error message are properly rendered */}
+          {/* Label for the input */}
           <FormLabel className='form-label'>
             {label}
           </FormLabel>
@@ -33,13 +32,16 @@ const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
               <Input
                 placeholder={placeholder}
                 className='input-class'
-                type={name=== 'password' ? 'password':'text'} //
+                type={type} // Use the passed type or default to 'text'
                 {...field}
               />
             </FormControl>
-            <FormMessage className='form-message mt-2'>
-              {/* Error message rendering */}
-            </FormMessage>
+            {/* Render error message if there is one */}
+            {error && (
+              <FormMessage className='form-message mt-2'>
+                {error.message}
+              </FormMessage>
+            )}
           </div>
         </div>
       )}

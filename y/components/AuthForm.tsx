@@ -9,25 +9,26 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
-  FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import CustomInput from './custominput'; // Ensure correct path
-import { authformSchema } from '@/lib/utils';
+
+import { authFormSchema } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
+import CustomInput from './custominput';
 
 // AuthForm Component
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  
+  const formSchema = authFormSchema(type);
 
   // Initialize form
-  const form = useForm<z.infer<typeof authformSchema>>({
-    resolver: zodResolver(authformSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -35,11 +36,14 @@ const AuthForm = ({ type }: { type: string }) => {
   });
 
   // Handle form submission
-  const onSubmit = (values: z.infer<typeof authformSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    console.log(values);
+    
+    console.log(values);           // This should now log the form data
     setIsLoading(false);
   };
+
+  console.log(form.watch()); // Debugging point to observe field values
 
   return (
     <section className="auth-form">
@@ -64,6 +68,58 @@ const AuthForm = ({ type }: { type: string }) => {
       ) : (
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {type === 'sign-up' && (
+              <>
+              <div className='flex gap-4'>
+              <CustomInput
+                control={form.control}
+                name="firstName"
+                label="First Name"
+                placeholder="Enter your first name" 
+                />
+                <CustomInput
+                control={form.control}
+                name="lastName"
+                label="Last Name"
+                placeholder="Enter your last name" 
+                />
+                </div>
+                <CustomInput
+                control={form.control}
+                name="address1"
+                label="Address"
+                placeholder="Enter your address" 
+                />
+                <div className='flex gap-4' >
+              <CustomInput
+                control={form.control}
+                name="state"
+                label="State"
+                placeholder="Example : Dhaka" 
+                />
+                <CustomInput
+                control={form.control}
+                name="postalCode"
+                label="Postal Code"
+                placeholder="Example : 1217" 
+                />
+                </div>
+                <div className='flex gap-4' >
+                <CustomInput
+                control={form.control}
+                name="dob"
+                label="Date of Birth"
+                placeholder="DD/MM/YYYY" 
+                />
+                <CustomInput
+                control={form.control}
+                name="ssn"
+                label="SSN"
+                placeholder="Example : 1234" 
+                />
+                </div>
+              </>
+            )}
             <CustomInput
               control={form.control}
               name="email"
@@ -99,8 +155,6 @@ const AuthForm = ({ type }: { type: string }) => {
         <Link href={type === 'sign-in' ? '/sign-up'
           : '/sign-in'} className="form-link">
             {type === 'sign-in' ? 'Sign Up' : 'Sign In'} 
-         
-        
         </Link>
       </footer>
     </section>
