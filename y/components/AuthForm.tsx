@@ -24,6 +24,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 
+
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -67,12 +68,12 @@ const AuthForm = ({ type }: { type: string }) => {
         }
 
         if(type === 'sign-in') {
-          //const response = await signIn({
-           // email: data.email,
-           // password: data.password,
-         // })
+          const response = await signIn({
+            email: data.email,
+            password: data.password,
+          })
 
-         // if(response) router.push('/')
+          if(response) router.push('/')
         }
       } catch (error) {
         console.log(error);
@@ -140,7 +141,7 @@ const AuthForm = ({ type }: { type: string }) => {
 
               <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' />
 
-              <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
+              <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' type='password' />
 
               <div className="flex flex-col gap-4">
                 <Button type="submit" disabled={isLoading} className="form-btn">
