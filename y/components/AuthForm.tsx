@@ -25,7 +25,6 @@ import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 import PlaidLink from './PlaidLink';
 
-
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -57,7 +56,7 @@ const AuthForm = ({ type }: { type: string }) => {
             city: data.city!,
             state: data.state!,
             postalCode: data.postalCode!,
-            dob: data.dob!,
+            dateOfBirth: data.dateOfBirth!,
             ssn: data.ssn!,
             email: data.email,
             password: data.password
@@ -113,11 +112,11 @@ const AuthForm = ({ type }: { type: string }) => {
             </h1>
           </div>
       </header>
-      {/* {user ? ( */}
+      {user ? (
         <div className="flex flex-col gap-4">
-          <PlaidLink user={user}  variant='primary'  />
+          <PlaidLink user={user} variant="primary" />
         </div>
-      {/* ): ( */}
+      ): (
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -134,7 +133,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' />
                   </div>
                   <div className="flex gap-4">
-                    <CustomInput control={form.control} name='dob' label="Date of Birth" placeholder='YYYY-MM-DD' />
+                    <CustomInput control={form.control} name='dateOfBirth' label="Date of Birth" placeholder='YYYY-MM-DD' />
                     <CustomInput control={form.control} name='ssn' label="SSN" placeholder='Example: 1234' />
                   </div>
                 </>
@@ -169,7 +168,7 @@ const AuthForm = ({ type }: { type: string }) => {
             </Link>
           </footer>
         </>
-      {/* )} */}
+      )}
     </section>
   )
 }
