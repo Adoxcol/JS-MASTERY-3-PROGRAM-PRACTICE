@@ -3,6 +3,8 @@ import Link from 'next/link'
 import React from 'react'
 import BankCard from './BankCard'
 import { countTransactionCategories } from '@/lib/utils'
+import Category from './Category'
+
 
 
 const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
@@ -71,7 +73,9 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
           <h2 className="header-2">Top categories</h2>
 
           <div className='space-y-5'>
-            
+            {categories.map((category, index) => (
+              <Category key={category.name} category={category} />
+            ))}
           </div>
         </div>
       </section>

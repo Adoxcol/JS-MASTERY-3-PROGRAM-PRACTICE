@@ -27,19 +27,17 @@ const DoughnutChart = ({ accounts }: DoughnutChartProps) => {
     labels: accountNames
   }
 
-  return (
-    <div style={{ width: '300px', height: '300px' }}>
-      <Doughnut 
-        data={data} 
-        options={{
-          cutout: '60%',
-          plugins: {
-            legend: { display: false },
-          },
-        }}
-      />
-    </div>
-  );
+  return <Doughnut 
+  data={data} 
+  options={{
+    cutout: '60%',
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  }}
+/>
 }
 
 export default DoughnutChart
